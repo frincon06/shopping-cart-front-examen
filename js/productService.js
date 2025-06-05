@@ -57,7 +57,7 @@ function getProducts() {
 }
 
 function showProductInfo(productId) {
-    fetch('https://fakestoreapi.com/products/'+ productId, {
+    fetch('https://fakestoreapi.com/products/1'+ productId, {
         method: "GET",
         headers: { 'Content-Type': 'application/json' }
     })
@@ -70,7 +70,7 @@ function showProductInfo(productId) {
             )
         })
         .then((response) => {
-            if (response.status === 20) {
+            if (response.status === 200) {
                 showModalProduct(response.body);
             } else {
                 document.getElementById('info').innerHTML = '<h3>No se encontró el producto</h3>';
