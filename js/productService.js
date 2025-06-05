@@ -37,7 +37,7 @@ function getProducts() {
                             
                             <td>${product.category}</td>
                             <td><button type="button" class="btn btn-outline-info btn-sm" onclick="showProductInfo(${product.id})">Ver</button></td>
-                            <td><button type="button" class="btn btn-outline-info" onclick="agregarProducto('${product}')">Agregar</button></td>
+                            <td><button type="button" class="btn btn-outline-info" onclick="showModalNewProduct('')">Agregar</button></td>
 
                         </tr>
                     `;
@@ -70,7 +70,7 @@ function showProductInfo(productId) {
             )
         })
         .then((response) => {
-            if (response.status === 200) {
+            if (response.status === 20) {
                 showModalProduct(response.body);
             } else {
                 document.getElementById('info').innerHTML = '<h3>No se encontró el producto</h3>';
@@ -89,12 +89,15 @@ function showModalProduct(product) {
                 </div>
                 <div class="modal-body">
                     <div class="card">
+                    <p class="card-text"><strong><img src="${product.image}" alt="Logo" width="100" height="100"
+                                class="d-inline-block align-text-top"></p>
                         <div class="card-body">
                             <h5 class="card-title">${product.tittle}</h5>
-                            <p class="card-text"><strong>ID:</strong> ${product.id}</p>
-                            <p class="card-text"><strong>Precio:</strong> ${product.price}</p>
-                            <p class="card-text"><strong>Precio:</strong> ${product.category}</p>
-                            <p class="card-text"><strong>Descripcion:</strong> ${product.description}</p>
+                            <p class="card-text"><strong>ID: ${product.id}</p>
+                            <p class="card-text"><strong>Precio: ${product.price}</p>
+                            <p class="card-text"><strong>Precio: ${product.category}</p>
+                            <p class="card-text"><strong>Descripcion: ${product.description}</p>
+                            
                         </div>
                     </div>
                 </div>
@@ -122,13 +125,20 @@ function agregarProducto(){
 
     const product = { NewProductoId, NewTittle, NewPrice, NewDescription, NewCategory};
 
-    fetch('https://fakestoreapi.com/products'+ NewProductoId, {
+    fetch('https://fakestoreapi.com/products/0', {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(product)
     })
-    .then(response => response.json(), console.log("funciona" + product))
-    .then(data => console.log(data));
+    .then((response) => { 
+            if (response.status === 200) {
+                document.getElementById('info').innerHTML = '<h3>Producto Agregado correctamente</h3>', console.log("funciona" + product + response);
+                return response.json()
+            } else {
+                document.getElementById('info').innerHTML = '<h3>Error al agregar el producto</h3>';
+            }
+    }).then(data => console.log("funciona" + data));
+
 }
 
 
