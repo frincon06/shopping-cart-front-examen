@@ -126,8 +126,16 @@ function agregarUsuario(){
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(user)
     })
-    .then(response => response.json(), console.log("funciona" + user))
-    .then(data => console.log("funciona" + data));
+    
+    .then((response) => { 
+            if (response.status === 200) {
+                document.getElementById('info').innerHTML = '<h3>Usuario Agregado correctamente</h3>', console.log("funciona" + user + response);
+                return response.json()
+            } else {
+                document.getElementById('info').innerHTML = '<h3>Error al agregar el Usuario</h3>';
+            }
+    }).then(data => console.log("funciona" + data));
+
 }
 
 
